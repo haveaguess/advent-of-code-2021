@@ -28,15 +28,30 @@
 
 (count (nth (iterate spawngen initdata) 256))             ;; too slow!
 
-(defn spawnreducer [children msg]  (if (< msg 1) ([6 (children) 8] [(dec msg)]))
+(defn spawnreducer [children msg]                           ;; unused
+  (if (< msg 1) ([6 (children) 8] [(dec msg)])))
 
 (map spawn generation)
 
 (defn spawn  [msg]  (if (< msg 1) [6 :child 8] [(dec msg)]))
 
+(comment)                                                   ;; pt. 2 https://adventofcode.com/2021/day/6#part2
 
-(defn spawngen [generation]
-  ( let [[children parents]] (reduce spawncat [[] []] (map spawn generation))
+;; ran out of memory when trying to do 256 iterations above so need a more efficient data structure ..
 
-                             )
+;; define vector that represents the number of fish with different number of days left (represented as their index)
+(def testfreqs
+  (merge {0 0, 1 0, 2 0, 3 0, 4 0, 5 0, 6 0, 7 0, 8 0}  (frequencies testdata)))
+
+
+(defn rotatefreqs [freqmap]
+  (clojure.set/rename-keys freqmap {0 8, 8 7, 7 6, 6 5, 5 4, 4 3, 3 2, 2 1, 1 0})
   )
+
+(defn freqspawn [freqmap]
+  (let [shiftedmap (rotatefreqs freqmap) ]
+    (update shiftedmap 6 + (get shiftedmap 8))))
+
+(freqspawn testfreqs)
+
+(vals (nth (iterate freqspawn testfreqs) 256))              ;;answer! 1592918715629
