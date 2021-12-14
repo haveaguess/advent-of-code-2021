@@ -1,4 +1,4 @@
-(ns advent.advent)
+(ns advent.day-6)
 
 (comment)                                                   ;; https://adventofcode.com/2021/day/6
 
@@ -26,7 +26,7 @@
 
 (comment)                                                   ;; pt. 1 answer was 350917. https://adventofcode.com/2021/day/6#part2 :
 
-(count (nth (iterate spawngen initdata) 256))             ;; too slow!
+(count (nth (iterate spawngen testdata) 256))             ;; too slow!
 
 (defn spawnreducer [children msg]                           ;; unused
   (if (< msg 1) ([6 (children) 8] [(dec msg)])))
@@ -38,7 +38,6 @@
 (comment)                                                   ;; pt. 2 https://adventofcode.com/2021/day/6#part2
 
 ;; ran out of memory when trying to do 256 iterations above so need a more efficient data structure ..
-
 ;; define vector that represents the number of fish with different number of days left (represented as their index)
 (def testfreqs
   (merge {0 0, 1 0, 2 0, 3 0, 4 0, 5 0, 6 0, 7 0, 8 0}  (frequencies testdata)))
