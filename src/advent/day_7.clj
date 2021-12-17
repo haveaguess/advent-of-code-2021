@@ -10,9 +10,18 @@
 (defn someints [limit start]
   (take limit (drop start (range))))
 
+;; this worked but is expensive vs direct math below
 (defn fuel [distance] (reduce + (someints distance 1)))
 
-                                                          ;; puzzle inputs differ by user so this doesnt work
+;; fuel is a trinumber
+(defn trinumber [n]
+  (/ (* n (+ n 1)) 2))
+
+(defn trilazy [n]
+  (take n (reductions + (drop 1 (range)))))
+
+
+;; puzzle inputs differ by user so this web lookup doesnt work without cookie, data below
 (defn sampledata []  (str/split (slurp "https://adventofcode.com/2021/day/7/input") #","))
 
 
@@ -23,13 +32,7 @@
 (defn cost [x]
   (reduce + (map   #(trinumber (Math/abs (- % x))) sampledata)))
                                                            ;; alternative to using algorithmic sequence in fuel
-(defn trinumber [n]
-  (/ (* n (+ n 1)) 2))
-
-(defn trilazy [n]
-  (take n (reductions + (drop 1 (range)))))
-
-
+;; returns best [index fuel]
 (defn minIndex [vec]
   (apply min-key second (map-indexed vector vec)))
 
