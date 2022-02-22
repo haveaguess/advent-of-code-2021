@@ -111,26 +111,6 @@
 
 ;pt 2
 
-
-;; (defn get-basin
-;;   [[x y] max-x max-y heightmap visited]
-;;   (cond
-;;     (contains? visited [x y]) #{}
-;;     (= 9 (heightmap [x y])) #{}
-;;     (> x max-x) #{}
-;;     (> y max-y) #{}
-;;     (< x 0) #{}
-;;     (< y 0) #{}
-;;     :else (set/union
-;;             (get-basin [(inc x) y] max-x max-y heightmap (set/union visited #{[x y] [x (inc y)] [(dec x) y] [x (dec y)]}))
-;;             (get-basin [x (inc y)] max-x max-y heightmap (set/union visited #{[x y] [(inc x) y] [(dec x) y] [x (dec y)]}))
-;;             (get-basin [(dec x) y] max-x max-y heightmap (set/union visited #{[x y] [(inc x) y] [x (inc y)] [x (dec y)]}))
-;;             (get-basin [x (dec y)] max-x max-y heightmap (set/union visited #{[x y] [(inc x) y] [x (inc y)] [(dec x) y]}))
-;;             #{[x y]})))
-
-
-
-
 (defn valid-pt [[x y] max-x max-y visited heightmap ]
   (cond
   (or (contains? visited [x y])
@@ -176,3 +156,6 @@
        (reduce *)))
 
 (is (= 1134 (basin-score 9 4 example-map)))
+
+(is (= 1148965 (basin-score  99 99 test-map)))
+
