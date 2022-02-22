@@ -1,6 +1,6 @@
 .nrepl-port
-.clk-kondo
+.clj-kondo
 output.calva-repl
-target
+target/
 .history
 .lsp/
