@@ -1,4 +1,4 @@
-(ns advent.day-9
+(ns advent.day-1
   (:require (clojure [set :as set] [string :as str]) :verbose
             [clojure.test :refer [is deftest testing]]
             [clojure.tools [trace :as trace]]))
