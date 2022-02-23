@@ -25,19 +25,19 @@ forward 2")
 
 (is (= [["forward" 5] ["down" 5] ["forward" 8] ["up" 3] ["down" 8] ["forward" 2]] (instructions example)))
 
-(defn parse [x y instruction amount]
+(defn update-position [x y instruction amount]
   (cond
     (= "forward" instruction) [(+ x amount) y]
     (= "down" instruction) [x (+ y amount)]
     (= "up" instruction) [x (- y amount)]
   ))
 
-(is (= [0 3] (parse 0 0 "down" 3)))
+(is (= [0 3] (update-position 0 0 "down" 3)))
 
 (defn go [[x y] [[z1 z2] & zs]]
   (if (nil? z1)
     [x y]
-    (go (parse x y z1 z2) zs)))
+    (go (update-position x y z1 z2) zs)))
 
 (is (= [15 10] (go [0 0] (instructions example))))
 
@@ -53,7 +53,7 @@ forward 2")
 ;; part2 
 
 
-(defn parse2 [x y current-aim instruction amount]
+(defn update-position-with-aim [x y current-aim instruction amount]
   (println ">" x y current-aim)
   (cond
     (= "forward" instruction) [(+ x amount) (+ y (* current-aim amount)) current-aim]
@@ -62,20 +62,20 @@ forward 2")
   ))
 
 
-(is (= [13 40 5] (parse2 5 0 5 "forward" 8)))
+(is (= [13 40 5] (update-position-with-aim 5 0 5 "forward" 8)))
 
-(defn go2 [[x y z] [[z1 z2] & zs]]
+(defn go-with-aim [[x y z] [[z1 z2] & zs]]
   (println [x y z])
   (if (nil? z1)
     [x y z]
-    (go2 (parse2 x y z z1 z2) zs)))
+    (go-with-aim (update-position-with-aim x y z z1 z2) zs)))
 
-(is (= [15 60 10] (go2 [0 0 0] (instructions example))))
+(is (= [15 60 10] (go-with-aim [0 0 0] (instructions example))))
 
 
 
 (defn part2 [input]
-  (let [[x y] (go2 [0 0 0] (instructions input))]
+  (let [[x y] (go-with-aim [0 0 0] (instructions input))]
     (* x y)))
 
 (is (= 900 (part2 example)))
